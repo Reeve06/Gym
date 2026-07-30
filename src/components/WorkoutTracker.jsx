@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Plus, Trash2, Clock, Info, Dumbbell } from 'lucide-react';
+import { Check, Plus, Trash2, Clock, Info, Dumbbell, Activity, Eye } from 'lucide-react';
+import AnatomicalDemoModal from './AnatomicalDemoModal';
 
 export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseLog }) {
   // Local state for set data per exercise
   const [exerciseLogs, setExerciseLogs] = useState({});
   const [activeRestSeconds, setActiveRestSeconds] = useState(null);
   const [restTimerInterval, setRestTimerInterval] = useState(null);
+  const [selectedDemoExercise, setSelectedDemoExercise] = useState(null);
 
   // Initialize set logs from localStorage or default template
   useEffect(() => {
@@ -173,9 +175,17 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
               <div className="ex-card-main-layout">
                 {/* Exercise Image */}
                 {ex.image && (
-                  <div className="ex-img-wrapper">
+                  <div
+                    className="ex-img-wrapper"
+                    onClick={() => setSelectedDemoExercise(ex)}
+                    title="Click to view Animated Muscle Activation Demo"
+                  >
                     <img src={ex.image} alt={ex.name} className="ex-img" />
                     <span className="ex-num-overlay">#{index + 1}</span>
+                    <div className="ex-demo-hover-badge">
+                      <Activity size={14} color="#FF3D00" />
+                      <span>Muscle Demo</span>
+                    </div>
                   </div>
                 )}
 
@@ -188,6 +198,14 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
                         <span className="ex-target-tag">{ex.target}</span>
                       </div>
                     </div>
+
+                    <button
+                      className="anatomical-demo-btn"
+                      onClick={() => setSelectedDemoExercise(ex)}
+                    >
+                      <Activity size={15} color="#FF3D00" />
+                      <span>Anatomical Demo</span>
+                    </button>
                   </div>
 
                   {/* Form Tip Cues */}
@@ -265,6 +283,15 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
           );
         })}
       </div>
+
+      {/* Anatomical Demo Modal Popup */}
+      {selectedDemoExercise && (
+        <AnatomicalDemoModal
+          exercise={selectedDemoExercise}
+          dayColor={dayData.badgeColor}
+          onClose={() => setSelectedDemoExercise(null)}
+        />
+      )}
     </div>
   );
 }
