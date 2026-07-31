@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Plus, Trash2, Clock, Info, Dumbbell, Activity, Eye } from 'lucide-react';
+import { Check, Plus, Trash2, Clock, Info, Dumbbell, Activity } from 'lucide-react';
+import AnatomicalExerciseImage from './AnatomicalExerciseImage';
 import AnatomicalDemoModal from './AnatomicalDemoModal';
 
 export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseLog }) {
@@ -171,23 +172,25 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
 
           return (
             <div key={ex.id} className={`exercise-card ${isExDone ? 'completed-card' : ''}`}>
-              {/* Exercise Layout with Image Thumbnail */}
+              {/* Exercise Layout with Anatomical Red-Muscle Highlight Image */}
               <div className="ex-card-main-layout">
-                {/* Exercise Image */}
-                {ex.image && (
-                  <div
-                    className="ex-img-wrapper"
-                    onClick={() => setSelectedDemoExercise(ex)}
-                    title="Click to view Animated Muscle Activation Demo"
-                  >
-                    <img src={ex.image} alt={ex.name} className="ex-img" />
-                    <span className="ex-num-overlay">#{index + 1}</span>
-                    <div className="ex-demo-hover-badge">
-                      <Activity size={14} color="#FF3D00" />
-                      <span>Muscle Demo</span>
-                    </div>
+                {/* Anatomical Line-Art Drawing Component (No realistic human photos!) */}
+                <div
+                  className="ex-img-wrapper"
+                  onClick={() => setSelectedDemoExercise(ex)}
+                  title="Click to view Animated Motion Demo"
+                >
+                  <AnatomicalExerciseImage
+                    exerciseId={ex.id}
+                    primaryZone={ex.primaryMuscleZone || 'quads'}
+                    name={ex.name}
+                  />
+                  <span className="ex-num-overlay">#{index + 1}</span>
+                  <div className="ex-demo-hover-badge">
+                    <Activity size={14} color="#FF3D00" />
+                    <span>Anatomical Demo</span>
                   </div>
-                )}
+                </div>
 
                 <div className="ex-card-content">
                   {/* Exercise Header */}
@@ -204,7 +207,7 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
                       onClick={() => setSelectedDemoExercise(ex)}
                     >
                       <Activity size={15} color="#FF3D00" />
-                      <span>Anatomical Demo</span>
+                      <span>Watch Motion Demo</span>
                     </button>
                   </div>
 
