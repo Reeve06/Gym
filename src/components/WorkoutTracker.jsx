@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Plus, Trash2, Clock, Info, Dumbbell, Activity } from 'lucide-react';
+import { Check, Plus, Trash2, Clock, Info, Activity } from 'lucide-react';
 import AnatomicalExerciseImage from './AnatomicalExerciseImage';
 import AnatomicalDemoModal from './AnatomicalDemoModal';
 
-export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseLog }) {
+export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseLog, onOpenAddModal, onDeleteCustomExercise }) {
   // Local state for set data per exercise
   const [exerciseLogs, setExerciseLogs] = useState({});
   const [activeRestSeconds, setActiveRestSeconds] = useState(null);
@@ -172,23 +172,22 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
 
           return (
             <div key={ex.id} className={`exercise-card ${isExDone ? 'completed-card' : ''}`}>
-              {/* Exercise Layout with Anatomical Red-Muscle Highlight Image */}
+              {/* Exercise Layout with Vector Anatomical Red-Muscle Highlight Image */}
               <div className="ex-card-main-layout">
-                {/* Anatomical Line-Art Drawing Component (No realistic human photos!) */}
+                {/* Anatomical Drawing Component */}
                 <div
                   className="ex-img-wrapper"
                   onClick={() => setSelectedDemoExercise(ex)}
                   title="Click to view Animated Motion Demo"
                 >
                   <AnatomicalExerciseImage
-                    exerciseId={ex.id}
                     primaryZone={ex.primaryMuscleZone || 'quads'}
                     name={ex.name}
                   />
                   <span className="ex-num-overlay">#{index + 1}</span>
                   <div className="ex-demo-hover-badge">
                     <Activity size={14} color="#FF3D00" />
-                    <span>Anatomical Demo</span>
+                    <span>Demo</span>
                   </div>
                 </div>
 
@@ -197,18 +196,33 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
                   <div className="ex-card-header">
                     <div className="ex-title-group">
                       <div>
-                        <h3 className="ex-name">{ex.name}</h3>
+                        <div className="ex-title-flex">
+                          <h3 className="ex-name">{ex.name}</h3>
+                          {ex.isCustom && <span className="custom-tag">CUSTOM</span>}
+                        </div>
                         <span className="ex-target-tag">{ex.target}</span>
                       </div>
                     </div>
 
-                    <button
-                      className="anatomical-demo-btn"
-                      onClick={() => setSelectedDemoExercise(ex)}
-                    >
-                      <Activity size={15} color="#FF3D00" />
-                      <span>Watch Motion Demo</span>
-                    </button>
+                    <div className="ex-card-actions">
+                      <button
+                        className="anatomical-demo-btn"
+                        onClick={() => setSelectedDemoExercise(ex)}
+                      >
+                        <Activity size={15} color="#FF3D00" />
+                        <span className="desktop-only">Anatomical Demo</span>
+                      </button>
+
+                      {ex.isCustom && (
+                        <button
+                          onClick={() => onDeleteCustomExercise(dayData.id, ex.id)}
+                          className="delete-custom-ex-btn"
+                          title="Delete Custom Exercise"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {/* Form Tip Cues */}
@@ -285,6 +299,17 @@ export default function WorkoutTracker({ dayData, loggedSession, onSaveExerciseL
             </div>
           );
         })}
+
+        {/* Add Exercise CTA Card */}
+        <div className="add-exercise-cta-card" onClick={onOpenAddModal}>
+          <div className="add-cta-icon">
+            <Plus size={24} color="#00E676" />
+          </div>
+          <div>
+            <h4>Add Custom Exercise to {dayData.dayName} Routine</h4>
+            <p>Add machine, dumbbell, cable, or bodyweight exercises to your split</p>
+          </div>
+        </div>
       </div>
 
       {/* Anatomical Demo Modal Popup */}

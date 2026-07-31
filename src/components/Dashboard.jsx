@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Dumbbell, Flame, Target, Clock, Sparkles } from 'lucide-react';
+import { Dumbbell, Flame, Target, Clock, Sparkles, Plus } from 'lucide-react';
 import WorkoutTracker from './WorkoutTracker';
 import CardioTimer from './CardioTimer';
 import MuscleVisualizer from './MuscleVisualizer';
 
-export default function Dashboard({ dayData, loggedSession, onSaveExerciseLog, onCompleteCardio, isCardioDone }) {
+export default function Dashboard({ dayData, loggedSession, onSaveExerciseLog, onCompleteCardio, isCardioDone, onOpenAddModal, onDeleteCustomExercise }) {
   const [activeTab, setActiveTab] = useState('workout'); // 'workout' | 'cardio' | 'anatomy'
 
   return (
@@ -80,6 +80,8 @@ export default function Dashboard({ dayData, loggedSession, onSaveExerciseLog, o
             dayData={dayData}
             loggedSession={loggedSession}
             onSaveExerciseLog={onSaveExerciseLog}
+            onOpenAddModal={onOpenAddModal}
+            onDeleteCustomExercise={onDeleteCustomExercise}
           />
         )}
 
