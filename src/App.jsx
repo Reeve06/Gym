@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import HistoryModal from './components/HistoryModal';
 import AddExerciseModal from './components/AddExerciseModal';
 import { WORKOUT_SCHEDULE } from './data/workoutData';
+import { Dumbbell, ShieldCheck, Flame, Heart } from 'lucide-react';
 
 export default function App() {
   // Determine initial day based on real-time day of week (Friday = 5, Saturday = 6, Sunday = 0)
@@ -134,9 +135,32 @@ export default function App() {
         onAddExercise={handleAddCustomExercise}
       />
 
-      <footer className="footer">
-        <div className="footer-container">
-          <p>© FitPulse Personal Trainer • Friday (Legs & Core), Saturday (Push), Sunday (Pull) + 30-Min Cardio Daily Split</p>
+      {/* Redesigned Premium Dark Gym Footer */}
+      <footer className="footer-modern">
+        <div className="footer-content">
+          <div className="footer-brand-row">
+            <div className="brand">
+              <div className="brand-icon">
+                <Dumbbell size={20} color="#00E676" />
+              </div>
+              <span className="footer-title">FitPulse Personal Trainer</span>
+            </div>
+            <div className="footer-pill">
+              <ShieldCheck size={14} color="#00E676" />
+              <span>3-Day Split • Friday / Saturday / Sunday + 30-Min Cardio</span>
+            </div>
+          </div>
+
+          <div className="footer-divider"></div>
+
+          <div className="footer-bottom-row">
+            <p className="footer-copyright">
+              Built for high performance hypertrophy & cardio tracking.
+            </p>
+            <div className="footer-tech">
+              <span>React 18</span> • <span>Vite</span> • <span>LocalStorage Persistence</span>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
